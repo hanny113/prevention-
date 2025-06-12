@@ -1,0 +1,343 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #121212;
+    color: #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+    background-size: cover;
+    background-position: center;
+}
+
+.game-container {
+    width: 90%;
+    max-width: 800px;
+    background-color: rgba(22, 22, 26, 0.9);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(0, 255, 200, 0.3);
+    border: 1px solid rgba(0, 255, 200, 0.5);
+}
+
+.game-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(0, 255, 200, 0.3);
+}
+
+.game-header h1 {
+    color: #00ffc8;
+    margin-bottom: 10px;
+    font-size: 2.2rem;
+    text-shadow: 0 0 10px rgba(0, 255, 200, 0.5);
+}
+
+.game-status {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    font-family: monospace;
+    font-size: 1.2rem;
+}
+
+.timer {
+    color: #ff5252;
+}
+
+/* 배터리 스타일 */
+.battery-container {
+    display: flex;
+    align-items: center;
+}
+
+.battery-label {
+    margin-right: 10px;
+    color: #ff5252;
+}
+
+.battery-wrapper {
+    width: 150px;
+    height: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    overflow: hidden;
+    position: relative;
+}
+
+.battery-bar {
+    height: 100%;
+    width: 100%;
+    background-color: #00c896;
+    border-radius: 10px;
+    transition: width 0.5s, background-color 0.5s;
+}
+
+.game-screen {
+    min-height: 400px;
+    position: relative;
+}
+
+.start-screen, .game-level, .game-over {
+    padding: 20px;
+    text-align: center;
+}
+
+.start-screen h2, .game-level h2, .game-over h2 {
+    color: #00ffc8;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+}
+
+.start-screen p, .game-level p {
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+button {
+    background-color: #00c896;
+    color: #111;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: all 0.3s;
+}
+
+button:hover {
+    background-color: #00ffc8;
+    box-shadow: 0 0 10px rgba(0, 255, 200, 0.7);
+}
+
+.level-info {
+    margin-bottom: 20px;
+}
+
+.puzzle-container {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-container {
+    margin: 20px 0;
+}
+
+#answer-input {
+    padding: 10px 15px;
+    width: 60%;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.9);
+    font-family: monospace;
+    font-size: 16px;
+}
+
+.game-over {
+    color: #ff5252;
+}
+
+/* 배열 퍼즐 스타일 */
+.code-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.code-cell {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 255, 200, 0.3);
+    border-radius: 5px;
+    font-family: monospace;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.code-cell:hover {
+    background-color: rgba(0, 255, 200, 0.2);
+}
+
+.code-cell.selected {
+    background-color: rgba(0, 255, 200, 0.4);
+    border-color: #00ffc8;
+    box-shadow: 0 0 10px rgba(0, 255, 200, 0.5);
+}
+
+/* 바이러스 애니메이션 */
+.virus-icon {
+    position: absolute;
+    opacity: 0;
+    font-size: 24px;
+    color: #ff5252;
+    animation: virus-float 3s infinite;
+}
+
+@keyframes virus-float {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translate(var(--x), var(--y)) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* 정답/오답 알림 스타일 */
+.feedback {
+    padding: 10px 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.feedback.correct {
+    background-color: rgba(40, 167, 69, 0.2);
+    border: 1px solid #28a745;
+    color: #28a745;
+}
+
+.feedback.wrong {
+    background-color: rgba(220, 53, 69, 0.2);
+    border: 1px solid #dc3545;
+    color: #dc3545;
+}
+
+/* 폭탄 해제 스타일 */
+.bomb-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.bomb-image {
+    transition: all 0.5s;
+}
+
+.bomb-image.explode {
+    animation: explode 1.5s forwards;
+}
+
+@keyframes explode {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.5);
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+.bomb-info {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    border: 1px dashed rgba(255, 82, 82, 0.5);
+}
+
+.code-input-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.code-digit {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    font-size: 24px;
+    font-family: monospace;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #00ffc8;
+    border: 2px solid #00c896;
+    border-radius: 5px;
+}
+
+.defuse-button {
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    background-color: #ff5252;
+    color: white;
+    margin-top: 15px;
+}
+
+.defuse-button:hover {
+    background-color: #ff3838;
+    box-shadow: 0 0 15px rgba(255, 82, 82, 0.7);
+}
+
+/* 성공 화면 스타일 */
+.success-screen {
+    text-align: center;
+    color: #00ffc8;
+}
+
+.success-screen h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .game-container {
+        width: 95%;
+        padding: 15px;
+    }
+    
+    .game-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .code-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    #answer-input {
+        width: 100%;
+    }
+    
+    .battery-wrapper {
+        width: 100px;
+    }
+} 
